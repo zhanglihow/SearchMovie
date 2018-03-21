@@ -1,6 +1,12 @@
 # search_movie
 
-A new Flutter application.
+通过豆瓣电影API [https://developers.douban.com/wiki/?title=movie_v2#subject](https://developers.douban.com/wiki/?title=movie_v2#subject)
+写的Flutter的小Demo
+
+
+
+
+
 
 ## Getting Started
 
