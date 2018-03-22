@@ -5,7 +5,7 @@
 
 
 # 效果
-![演示](https://github.com/zhanglihow/search_movie/blob/master/pics/1.gif)
+![演示](https://github.com/zhanglihow/search_movie/blob/master/pics/2.gif)
 
 喜欢就给个start吧~
 
