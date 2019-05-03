@@ -6,19 +6,16 @@ import 'package:search_movie/net/repository.dart';
 import 'package:search_movie/pages/movie_details_page.dart';
 import 'package:search_movie/utils/utils.dart';
 import 'package:search_movie/widget/movie_card.dart';
-
+import 'dart:async';
 
 class SearchMoviePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return new SearchState();
   }
-
 }
 
-
 class SearchState extends State<SearchMoviePage> {
-
   SearchState();
 
   List<Movie> _items = new List();
@@ -38,41 +35,34 @@ class SearchState extends State<SearchMoviePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             new TextField(
-              decoration: new InputDecoration(
-                  hintText: "电影名称"
-              ),
+              decoration: new InputDecoration(hintText: "电影名称"),
               onChanged: (string) => (subject.add(string)),
             ),
-            _isLoading ?
-            new Center(
-                child: new CircularProgressIndicator()
-            )
+            _isLoading
+                ? new Center(child: new CircularProgressIndicator())
                 : new Container(),
-            new Expanded(child: new ListView.builder(
-                padding: new EdgeInsets.all(8.0),
-                itemCount: _items.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return new MovieCard(
-                    movie: _items[index],
-                    itemClick: () {
-                      Navigator.of(context).push(
-                          new FadeRoute(
+            new Expanded(
+                child: new ListView.builder(
+                    padding: new EdgeInsets.all(8.0),
+                    itemCount: _items.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return new MovieCard(
+                        movie: _items[index],
+                        itemClick: () {
+                          Navigator.of(context).push(new FadeRoute(
                             builder: (BuildContext context) =>
-                            new MovieDetailsPage(_items[index]),
+                                new MovieDetailsPage(_items[index]),
                             settings: new RouteSettings(
                                 name: '/movie', isInitialRoute: false),
                           ));
-                    },
-                  );
-                }
-            )
-            )
+                        },
+                      );
+                    }))
           ],
         ),
       ),
     );
   }
-
 
   void _clearList() {
     setState(() {
@@ -89,8 +79,9 @@ class SearchState extends State<SearchMoviePage> {
   @override
   void initState() {
     super.initState();
-    subject.stream.debounce(new Duration(milliseconds: 600)).listen(
-        _textChanged);
+    subject.stream
+        .debounce(new Duration(milliseconds: 600))
+        .listen(_textChanged);
   }
 
   void _textChanged(String text) {
@@ -104,18 +95,17 @@ class SearchState extends State<SearchMoviePage> {
       _isLoading = true;
     });
     _clearList();
-    Repository.getMovies(text)
-        .then((movie) {
+    Repository.getMovies(text).then((movie) {
       setState(() {
         _isLoading = false;
         if (movie.isOk()) {
           _items = movie.body;
         } else {
-          scaffoldKey.currentState.showSnackBar(new SnackBar(content: new Text(
-              "Something went wrong, check your internet connection")));
+          scaffoldKey.currentState.showSnackBar(new SnackBar(
+              content: new Text(
+                  "Something went wrong, check your internet connection")));
         }
       });
     });
   }
-
 }

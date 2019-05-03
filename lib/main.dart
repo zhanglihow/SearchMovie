@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:search_movie/pages/search_movie_page.dart';
+import 'dart:async';
 
 void main() => runApp(new MyApp());
 
@@ -13,5 +14,4 @@ class MyApp extends StatelessWidget {
       home: new SearchMoviePage(),
     );
   }
-
 }
